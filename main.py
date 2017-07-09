@@ -1,16 +1,16 @@
 import sys
 import os
+import string
 import re
 import shutil
 import traceback
 
 import argh
-import win32api
 import vss
 
 
 def get_drives():
-  return [drive.split(":")[0] for drive in win32api.GetLogicalDriveStrings().split('\000')[:-1]]
+  return ['%s:' % d for d in string.ascii_uppercase if os.path.exists('%s:' % d)]
 
 
 def find_files(drive, regex):

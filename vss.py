@@ -6,8 +6,7 @@ class ShadowCopy:
         """
         Creates shadow copies for each local drive in the set drive_letters.
         """
-        self.__drive_letters = set()
-        self.__shadow_ids = {}
+        self.__shadow_paths = self.__vss_list()
 
     def shadow_path(self, path):
         '''

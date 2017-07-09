@@ -26,4 +26,4 @@ install:
   - "%PYTHON%/Scripts/pip.exe install flake8"
 
 test_script:
-  - "%PYTHON%/Scripts/flake8.exe ./vss-ransom-restore/ --verbose"
+  - "%PYTHON%/Scripts/flake8.exe ./vss-ransom-restore/"

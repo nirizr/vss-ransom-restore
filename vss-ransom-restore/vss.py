@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import win32com.client
 
+
 class ShadowCopy:
     def __init__(self):
         """
@@ -19,16 +20,17 @@ class ShadowCopy:
             new_path = path.replace(drive_letter + u':',
                                     shadow_path,
                                     1)
+            # TODO: handle exact exception
             try:
-                with open(new_path, 'rb') as fh:
+                with open(new_path, 'rb'):
                     return new_path
             except:
                 pass
         return None
 
     def __vss_list(self):
-        wcd=win32com.client.Dispatch("WbemScripting.SWbemLocator")
-        wmi=wcd.ConnectServer(".","root\cimv2")
+        wcd = win32com.client.Dispatch("WbemScripting.SWbemLocator")
+        wmi = wcd.ConnectServer(".", "root\cimv2")
         query = "SELECT * FROM Win32_ShadowCopy ORDER BY InstallDate DESC"
-        obj=wmi.ExecQuery(query)
-        return [unicode(o.DeviceObject) for o in obj]
+        obj = wmi.ExecQuery(query)
+        return [o.DeviceObject for o in obj]

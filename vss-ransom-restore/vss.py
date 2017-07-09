@@ -24,7 +24,7 @@ class ShadowCopy:
                     return new_path
             except:
                 pass
-        raise Exception("Problem processing path: {0}".format(path))
+        return None
 
     def __vss_list(self):
         wcd=win32com.client.Dispatch("WbemScripting.SWbemLocator")

@@ -21,7 +21,6 @@ def find_files(drive, regex):
       if result:
         yield os.path.join(root, f)
 
-
 def restore_drive(drive, vss, regex, quiet=False):
   print("Restoring drive {}".format(drive))
   successful = 0
@@ -29,29 +28,32 @@ def restore_drive(drive, vss, regex, quiet=False):
   for encrypted_file in find_files(drive, regex):
     total += 1
     original_file = os.path.splitext(encrypted_file)[0]
-    try:
-      vss_file = vss.shadow_path(original_file)
-    except:
-      print("Original file: {}".format(original_file))
-      print("ERROR: failed converting to VSS name")
-      traceback.print_exc(file=sys.stdout)
+    vss_file = vss.shadow_path(original_file)
+
+    if not vss_file:
+      print("WARN: can't find file for: {}".format(encrypted_file))
       continue
+
     restored_file = os.path.splitext(original_file)[0] + ".restored" + os.path.splitext(original_file)[1]
-    try:
-      with open(vss_file, 'rb') as vss_fh:
-        with open(restored_file, 'wb') as restored_fh:
-          shutil.copyfileobj(vss_fh, restored_fh)
-          successful += 1
-          print("Successfully restored file at {}".format(restored_file))
-    except:
-      if not quiet:
-        print("Restoring file {}".format(encrypted_file))
-        print("Original file: {}".format(original_file))
-        print("VSS file: {}".format(vss_file))
-        print("Restored file: {}".format(restored_file))
-        print("ERROR: failed restoring above file!")
-        traceback.print_exc(file=sys.stdout)
+    if restore_file(vss_file, restored_file):
+      successful += 1
+
   print("Finished restoring attempt. Found {} files, restored {}".format(total, successful))
+
+def restore_file(vss_file, restored_file):
+  try:
+    with open(vss_file, 'rb') as vss_fh:
+      with open(restored_file, 'wb') as restored_fh:
+        shutil.copyfileobj(vss_fh, restored_fh)
+        print("Successfully restored file at {}".format(restored_file))
+        return True
+  except:
+    if not quiet:
+      print("VSS file: {}".format(vss_file))
+      print("Restored file: {}".format(restored_file))
+      print("ERROR: failed restoring above file!")
+      traceback.print_exc(file=sys.stdout)
+    return False
 
 
 def main(extension="moments2900", regex=None, quiet=False):

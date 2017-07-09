@@ -11,7 +11,7 @@ import vss
 
 def get_drives():
     return ['%s:' % d for d in string.ascii_uppercase
-                if os.path.exists('%s:' % d)]
+            if os.path.exists('%s:' % d)]
 
 
 def find_files(drive, regex):

@@ -8,7 +8,7 @@ environment:
 
     - PYTHON: "C:\\Python33"
       PYTHON_VERSION: "3.3.5"
-      PYTHON_ARCH: "32"
+      PYTHON_ARCH: "64"
 
     - PYTHON: "C:\\Python34"
       PYTHON_VERSION: "3.4.1"
@@ -26,4 +26,4 @@ install:
   - "%PYTHON%/Scripts/pip.exe install flake8"
 
 test_script:
-  - "%PYTHON%/Scripts/flake8.exe ./vss-ransom-restore"
+  - "%PYTHON%/Scripts/flake8.exe ./vss-ransom-restore/ --verbose"

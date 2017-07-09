@@ -9,10 +9,10 @@ class ShadowCopy:
         self.__shadow_paths = self.__vss_list()
 
     def shadow_path(self, path):
-        '''
+        """
         Takes a regular file system path and transforms it into an
         equivalent path in a shadow copy
-        '''
+        """
         # TODO: validate path starts with a drive letter
         drive_letter = path[0]
         for shadow_path in self.__shadow_paths:
@@ -29,6 +29,6 @@ class ShadowCopy:
     def __vss_list(self):
         wcd=win32com.client.Dispatch("WbemScripting.SWbemLocator")
         wmi=wcd.ConnectServer(".","root\cimv2")
-        # TODO: sort by time so first SS path will be the most recent and so on...
-        obj=wmi.ExecQuery("SELECT * FROM Win32_ShadowCopy")
+        query = "SELECT * FROM Win32_ShadowCopy ORDER BY InstallDate DESC"
+        obj=wmi.ExecQuery(query)
         return [unicode(o.DeviceObject) for o in obj]

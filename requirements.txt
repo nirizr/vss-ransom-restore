@@ -1,2 +1,3 @@
 pypiwin32
 argh
+py2exe_py2

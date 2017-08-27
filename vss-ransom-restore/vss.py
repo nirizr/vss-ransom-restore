@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 import win32com.client
+import platform
+import os
 
 
 class ShadowCopy:
@@ -7,6 +9,16 @@ class ShadowCopy:
         """
         Creates shadow copies for each local drive in the set drive_letters.
         """
+        python_bits, _ = platform.architecture()
+        os_bits = self.__get_os_bits()
+        if not python_bits == os_bits:
+            raise Exception("Architecture ERROR: Tool must be written for the "
+                            "architecture it's running on. You're running on "
+                            "a {} architecture with a {} executable. Please "
+                            "run script with a python build similar to the "
+                            "target machine architecture".format(os_bits,
+                                                                 python_bits))
+
         self.__shadow_paths = self.__vss_list()
 
     def shadow_path(self, path):
@@ -28,9 +40,18 @@ class ShadowCopy:
                 pass
         return None
 
-    def __vss_list(self):
+    def __get_os_bits(self):
+        try:
+            os.environ["PROGRAMFILES(X86)"]
+            return "64bit"
+        except KeyError:
+            return "32bit"
+
+    def __get_wmi(self):
         wcd = win32com.client.Dispatch("WbemScripting.SWbemLocator")
-        wmi = wcd.ConnectServer(".", "root\cimv2")
+        return wcd.ConnectServer(".")
+
+    def __vss_list(self):
         query = "SELECT * FROM Win32_ShadowCopy ORDER BY InstallDate DESC"
-        obj = wmi.ExecQuery(query)
+        obj = self.__get_wmi().ExecQuery(query)
         return [o.DeviceObject for o in obj]

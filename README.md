@@ -11,3 +11,14 @@ Such features as:
 4. Control over location of restored files is available, to easily collect all restored files in a single location for easy machine reimaging.
 5. Provides statistics of number of restored files compared to number of encrypted files.
 6. Deliverable as an executable to avoid any dependancies for easily deployment on multiple machines.
+
+## Usage caveats
+
+There are several caveats to using, especially when building the tool using PyInstaller. They're listed here for future referance:
+
+1. PyInstaller does not currently support Python 3.6 or Python 2.X. You'll need to install a Python version in between those two for now.
+2. To use pywin32, especially when packaging it with PyInstaller, you might need to install "Microsoft Visual C++ 2010 Redistributable Package" or manually install pywin32. For more details see [this github issue][1].
+3. You'll need a version made using Python of the same architecture "bitness" (64bit vs 32bit) you're intending to run the tool on. If you need to run it on both 32 and 64 bit machines, you'll need to isntall 32bit AND 64bit versions of python on a 64bit machine and build the tool twice.
+
+
+[1]: https://github.com/pyinstaller/pyinstaller/issues/1840

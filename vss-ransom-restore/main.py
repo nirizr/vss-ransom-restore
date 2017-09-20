@@ -67,7 +67,7 @@ def main(extension="moments2900", regex=None, quiet=False):
 
     if not regex:
         print("Looking for extension: {}".format(extension))
-        regex = "\.{}$".format(extension)
+        regex = r".{}$".format(extension)
 
     regex = re.compile(regex, flags=re.IGNORECASE)
 

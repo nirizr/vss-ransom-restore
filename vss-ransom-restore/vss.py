@@ -52,6 +52,9 @@ class ShadowCopy:
         return wcd.ConnectServer(".")
 
     def __vss_list(self):
-        query = "SELECT * FROM Win32_ShadowCopy ORDER BY InstallDate DESC"
+        query = "SELECT * FROM Win32_ShadowCopy"
         obj = self.__get_wmi().ExecQuery(query)
-        return [o.DeviceObject for o in obj]
+
+        def key(o):
+            return o.InstallDate
+        return [o.DeviceObject for o in sorted(obj, key=key, reverse=True)]

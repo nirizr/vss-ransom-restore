@@ -69,7 +69,7 @@ def main(extension="moments2900", regex=None, quiet=False):
         print("Looking for extension: {}".format(extension))
         regex = "\.{}$".format(extension)
 
-    regex = re.compile(regex)
+    regex = re.compile(regex, flags=re.IGNORECASE)
 
     ss = vss.ShadowCopy()
     for drive in drives:

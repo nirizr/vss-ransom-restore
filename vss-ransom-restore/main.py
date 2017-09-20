@@ -5,13 +5,31 @@ import re
 import shutil
 import traceback
 
+import win32api
 import argh
 import vss
 
 
-def get_drives():
+def get_drives_dumb():
     return ['%s:' % d for d in string.ascii_uppercase
             if os.path.exists('%s:' % d)]
+
+
+def get_drives_win32api():
+    drives = win32api.GetLogicalDriveStrings()
+    return [d.replace("\\", "") for d in drives.split('\000')[:-1]]
+
+
+def get_drives_mountvol():
+    drives = re.findall(r"[A-Z]+:.*$", os.popen("mountvol /").read(),
+                        re.MULTILINE)
+    return [d.replace("\\", "") for d in drives]
+
+
+def get_drives():
+    return set(get_drives_dumb() +
+               get_drives_win32api() +
+               get_drives_mountvol())
 
 
 def find_files(drive, regex):

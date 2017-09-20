@@ -21,12 +21,15 @@ def get_drives_win32api():
 
 
 def get_drives_mountvol():
-    drives = re.findall(r"[A-Z]+:.*$",os.popen("mountvol /").read(),re.MULTILINE)
+    drives = re.findall(r"[A-Z]+:.*$", os.popen("mountvol /").read(),
+                        re.MULTILINE)
     return [d.replace("\\", "") for d in drives]
 
 
 def get_drives():
-    return set(get_drives_dumb() + get_drives_win32api() + get_drives_mountvol())
+    return set(get_drives_dumb() +
+               get_drives_win32api() +
+               get_drives_mountvol())
 
 
 def find_files(drive, regex):

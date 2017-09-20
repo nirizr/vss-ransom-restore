@@ -6,4 +6,4 @@
 
 pip install -r requirements.txt
 
-pyinstaller vss-ransom-restore/main.py --onefile --name vss-ransom-restore
+pyinstaller vss-ransom-restore/main.py --onefile --name vss-ransom-restore_%bits%

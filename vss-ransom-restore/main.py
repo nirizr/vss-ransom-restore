@@ -6,8 +6,14 @@ import shutil
 import traceback
 
 import win32api
+import win32com
+import win32com.shell.shell
 import argh
 import vss
+
+
+def test_admin():
+    return win32com.shell.shell.IsUserAnAdmin()
 
 
 def get_drives_dumb():
@@ -86,6 +92,11 @@ def main(extension="moments2900", regex=None, quiet=False):
     if not regex:
         print("Looking for extension: {}".format(extension))
         regex = r".{}$".format(extension)
+
+    if not test_admin():
+        print("Not running as admin! please run with administrative "
+              "privileges")
+        return
 
     regex = re.compile(regex, flags=re.IGNORECASE)
 

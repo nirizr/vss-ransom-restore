@@ -2,36 +2,34 @@ build: false
 
 environment:
   matrix:
-    - PYTHON: "C:\\Python2-64"
-      PYTHON_VERSION: "2"
-      PYTHON_ARCH: "64"
-
-    - PYTHON: "C:\\Python2-32"
-      PYTHON_VERSION: "2"
-      PYTHON_ARCH: "32"
-
-    - PYTHON: "C:\\Python3-64"
-      PYTHON_VERSION: "3"
-      PYTHON_ARCH: "64"
-
-    - PYTHON: "C:\\Python3-32"
-      PYTHON_VERSION: "3"
-      PYTHON_ARCH: "32"
+    - PYTHON: "C:\\Python27"
+      BITS: "32bit"
+    - PYTHON: "C:\\Python27-x64"
+      BITS: "64bit"
+    - PYTHON: "C:\\Python36"
+      BITS: "32bit"
+    - PYTHON: "C:\\Python36-x64"
+      BITS: "64bit"
 
 branches:
   only:
     - master
 
 init:
-  - "ECHO %PYTHON% %PYTHON_VERSION% %PYTHON_ARCH%"
+  - "ECHO %PYTHON%"
 
 install:
-  - "%PYTHON%/Scripts/pip.exe install -r requirements.txt"
-  - "%PYTHON%/Scripts/pip.exe install flake8"
+  - "SET PATH=%PYTHON%;%PYTHON%\\Scripts;%PATH%"
+  - "pip install -r requirements.txt"
+  - "pip install flake8"
 
 test_script:
-  - "%PYTHON%/Scripts/flake8.exe ./vss-ransom-restore/"
+  - "flake8 ./vss-ransom-restore/"
   - "./build.bat nopause"
 
 artifacts:
-  - path: "dist/vss-ransom-restore_*.exe"
+  - path: "dist/vss-ransom-restore_32bit.exe"
+    name: "vss-ransom-restore_32bit.exe"
+
+  - path: "dist/vss-ransom-restore_64bit.exe"
+    name: "vss-ransom-restore_64bit.exe"

@@ -2,7 +2,11 @@
 
 @echo Note: You're building a %bits% executable, it will only be able to run on a %bits% architecture machine.
 @echo To build an execuable for a different architecture, please use a cpython environment of the same architecture (make sure you're not running a 32bit python with a 64bit machine!)
+
+if "%1"=="y" goto start
+if "%1"=="nopause" goto start
 @pause
+:start
 
 pip install -r requirements.txt
 

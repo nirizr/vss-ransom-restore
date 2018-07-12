@@ -28,3 +28,6 @@ install:
 test_script:
   - "%PYTHON%/Scripts/flake8.exe ./vss-ransom-restore/"
   - "./build.bat"
+
+artifacts:
+  - path: "vss-ransom-restore_*.exe"

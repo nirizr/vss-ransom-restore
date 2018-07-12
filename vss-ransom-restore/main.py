@@ -76,7 +76,7 @@ def restore_file(vss_file, restored_file, quiet):
                 shutil.copyfileobj(vss_fh, restored_fh)
                 print("Successfully restored file at {}".format(restored_file))
                 return True
-    except:
+    except Exception:
         if not quiet:
             print("VSS file: {}".format(vss_file))
             print("Restored file: {}".format(restored_file))

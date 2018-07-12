@@ -36,7 +36,7 @@ class ShadowCopy:
             try:
                 with open(new_path, 'rb'):
                     return new_path
-            except:
+            except Exception:
                 pass
         return None
 

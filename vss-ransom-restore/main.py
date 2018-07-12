@@ -39,8 +39,7 @@ def get_drives():
 
 
 def find_files(drive, regex):
-    path = "{}:\\".format(drive)
-    for root, _, files in os.walk(path):
+    for root, _, files in os.walk(drive):
         for f in files:
             result = regex.search(f)
             if result:

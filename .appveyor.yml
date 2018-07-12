@@ -27,3 +27,4 @@ install:
 
 test_script:
   - "%PYTHON%/Scripts/flake8.exe ./vss-ransom-restore/"
+  - "./build.bat"

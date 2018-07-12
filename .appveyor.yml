@@ -34,4 +34,4 @@ test_script:
   - "./build.bat nopause"
 
 artifacts:
-  - path: "vss-ransom-restore_*.exe"
+  - path: "dist/vss-ransom-restore_*.exe"
